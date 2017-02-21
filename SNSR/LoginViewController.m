@@ -18,12 +18,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationController.navigationBar.hidden = YES;
+
+    self.navigationController.navigationBar.hidden=YES;
+
+    // button position
+    int xMargin = 30;
+    int marginBottom = 25;
+    CGFloat btnWidth = self.view.frame.size.width - xMargin * 2;
+    int btnHeight = 42;
     
-    [self.loginButton setBackgroundColor:[UIColor colorWithRed:0x00 / 255.0 green:0x00 / 255.0 blue:0x00 / 255.0 alpha:1.0]];
-    self.loginButton.clipsToBounds = YES;
-    self.loginButton.layer.cornerRadius = 4;
+    UIButton* kakaoLoginButton
+    = [[KOLoginButton alloc] initWithFrame:CGRectMake(xMargin, self.view.frame.size.height-btnHeight-marginBottom, btnWidth, btnHeight)];
+    kakaoLoginButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    
+    [self.view addSubview:kakaoLoginButton];
+    
+    [kakaoLoginButton addTarget:self
+                         action:@selector(invokeLoginWithTarget)
+               forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,7 +44,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)login:(id)sender {
+- (void) invokeLoginWithTarget{
     KOSession *session = [KOSession sharedSession];
     
     if (session.isOpen) {
